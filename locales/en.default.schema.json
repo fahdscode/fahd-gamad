@@ -1,4 +1,23 @@
 {
+  "names": {
+    "logo": "Logo",
+    "colors": "Colors",
+    "typography": "Typography",
+    "page": "Page width",
+    "animations": "Animations",
+    "badges": "Badges",
+    "buttons": "Buttons",
+    "cart": "Cart",
+    "drawers": "Drawers",
+    "icons": "Icons",
+    "inputs": "Inputs",
+    "popups": "Popups",
+    "price": "Price",
+    "product": "Product",
+    "search": "Search",
+    "swatch": "Swatch",
+    "variants": "Variants"
+  },
   "settings_schema": {
     "global": {
       "settings": {
