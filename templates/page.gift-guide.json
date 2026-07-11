@@ -1,56 +1,10 @@
 {
   "sections": {
     "banner": {
-      "type": "custom-banner"
-    },
-    "grid": {
-      "type": "custom-product-grid",
-      "settings": {
-        "bundle_product": "gid://shopify/Product/9496560435368"
-      },
-      "blocks": {
-        "block-1": {
-          "type": "product_block",
-          "settings": {
-            "product": "gid://shopify/Product/9496560763048"
-          }
-        },
-        "block-2": {
-          "type": "product_block",
-          "settings": {
-            "product": "gid://shopify/Product/9496560730280"
-          }
-        },
-        "block-3": {
-          "type": "product_block",
-          "settings": {
-            "product": "gid://shopify/Product/9496560664744"
-          }
-        },
-        "block-4": {
-          "type": "product_block",
-          "settings": {
-            "product": "gid://shopify/Product/9496560631976"
-          }
-        },
-        "block-5": {
-          "type": "product_block",
-          "settings": {
-            "product": "gid://shopify/Product/9496560599208"
-          }
-        },
-        "block-6": {
-          "type": "product_block",
-          "settings": {
-            "product": "gid://shopify/Product/9496560566440"
-          }
-        }
-      },
-      "block_order": ["block-1", "block-2", "block-3", "block-4", "block-5", "block-6"]
+      "type": "gift-guide-banner"
     }
   },
   "order": [
-    "banner",
-    "grid"
+    "banner"
   ]
 }

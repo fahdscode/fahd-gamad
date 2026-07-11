@@ -1,0 +1,47 @@
+{% comment %}
+  Renders the gift-guide arrow button used across the gift-guide sections.
+
+  The Figma prototype shows two variants of the same component:
+  a black button that turns yellow on hover and a yellow button that turns
+  black on hover — in both cases the arrow sits in a small square "chip"
+  that takes the opposite color while a colored panel slides in behind the
+  label. The slide/color-swap is implemented purely in CSS (see the
+  .gift-guide-button rules shipped with each section stylesheet).
+
+  Accepts:
+  - label   {String}  Button text (required)
+  - style   {String}  'black' or 'yellow' (required)
+  - url     {String}  Optional href. Renders an <a> when present, otherwise
+                      a <button> (used for the popup's ADD TO CART).
+  - type    {String}  Optional <button> type attribute, defaults to 'button'.
+  - class   {String}  Optional extra classes for the root element.
+  - attrs   {String}  Optional extra attributes rendered verbatim.
+
+  Usage:
+  {% render 'gift-guide-button', label: section.settings.shop_button_label, url: section.settings.shop_button_link, style: 'black' %}
+{% endcomment %}
+
+{%- liquid
+  assign element = 'button'
+  if url != blank
+    assign element = 'a'
+  endif
+-%}
+
+<{{ element }}
+  class="gift-guide-button gift-guide-button--{{ style }} {{ class }}"
+  {% if element == 'a' -%}
+    href="{{ url }}"
+  {%- else -%}
+    type="{{ type | default: 'button' }}"
+  {%- endif %}
+  {{ attrs }}
+>
+  <span class="gift-guide-button__label">{{ label | escape }}</span>
+  <span class="gift-guide-button__arrow" aria-hidden="true">
+    {%- comment -%} Long-tailed arrow matching the Figma component. {%- endcomment -%}
+    <svg xmlns="http://www.w3.org/2000/svg" width="26" height="10" viewBox="0 0 26 10" fill="none">
+      <path d="M1 5h23.2M20.5 1l4.5 4-4.5 4" stroke="currentColor" stroke-width="1.3"/>
+    </svg>
+  </span>
+</{{ element }}>
