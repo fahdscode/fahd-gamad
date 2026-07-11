@@ -245,6 +245,7 @@ if (!customElements.get('gift-guide-product-grid')) {
         this.refs.status.classList.remove('is-error');
         this.refs.status.textContent = '';
 
+        let errorMessage = null;
         try {
           const response = await fetch(`${window.routes.cart_add_url}.js`, {
             method: 'POST',
@@ -254,8 +255,6 @@ if (!customElements.get('gift-guide-product-grid')) {
           const data = await response.json();
           if (!response.ok) throw new Error(data.description || data.message);
 
-          this.refs.status.textContent = window.giftGuideStrings?.addedToCart || 'Added to cart';
-
           // Dawn's cart components subscribe to this event (pubsub.js and
           // constants.js are loaded globally by layout/theme.liquid).
           if (typeof publish === 'function' && typeof PUB_SUB_EVENTS !== 'undefined') {
@@ -263,12 +262,19 @@ if (!customElements.get('gift-guide-product-grid')) {
           }
           this.refreshCartIcon();
         } catch (error) {
-          this.refs.status.textContent =
+          errorMessage =
             error.message || window.giftGuideStrings?.addError || "Couldn't add to cart. Please try again.";
+        }
+
+        // Restore the button state first (updateSelection clears the status
+        // line), then report the outcome in the live region.
+        this.refs.addButton.removeAttribute('aria-busy');
+        this.updateSelection();
+        if (errorMessage) {
+          this.refs.status.textContent = errorMessage;
           this.refs.status.classList.add('is-error');
-        } finally {
-          this.refs.addButton.removeAttribute('aria-busy');
-          this.updateSelection();
+        } else {
+          this.refs.status.textContent = window.giftGuideStrings?.addedToCart || 'Added to cart';
         }
       }
 

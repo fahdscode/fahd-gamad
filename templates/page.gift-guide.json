@@ -6,13 +6,13 @@
     "grid": {
       "type": "gift-guide-product-grid",
       "settings": {
-        "bundle_product": "gid://shopify/Product/9496560435368"
+        "bundle_product": "dark-winter-jacket"
       },
       "blocks": {
         "block-1": {
           "type": "product_block",
           "settings": {
-            "product": "gid://shopify/Product/9496560763048",
+            "product": "black-leather-bag",
             "hotspot_x": 45,
             "hotspot_y": 50
           }
@@ -20,7 +20,7 @@
         "block-2": {
           "type": "product_block",
           "settings": {
-            "product": "gid://shopify/Product/9496560730280",
+            "product": "blue-silk-tuxedo",
             "hotspot_x": 55,
             "hotspot_y": 40
           }
@@ -28,7 +28,7 @@
         "block-3": {
           "type": "product_block",
           "settings": {
-            "product": "gid://shopify/Product/9496560664744",
+            "product": "chequered-red-shirt",
             "hotspot_x": 55,
             "hotspot_y": 25
           }
@@ -36,7 +36,7 @@
         "block-4": {
           "type": "product_block",
           "settings": {
-            "product": "gid://shopify/Product/9496560631976",
+            "product": "classic-leather-jacket",
             "hotspot_x": 45,
             "hotspot_y": 35
           }
@@ -44,7 +44,7 @@
         "block-5": {
           "type": "product_block",
           "settings": {
-            "product": "gid://shopify/Product/9496560599208",
+            "product": "classic-varsity-top",
             "hotspot_x": 45,
             "hotspot_y": 30
           }
@@ -52,7 +52,7 @@
         "block-6": {
           "type": "product_block",
           "settings": {
-            "product": "gid://shopify/Product/9496560566440",
+            "product": "silk-summer-top",
             "hotspot_x": 60,
             "hotspot_y": 45
           }
