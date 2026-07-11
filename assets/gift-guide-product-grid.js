@@ -41,6 +41,8 @@ if (!customElements.get('gift-guide-product-grid')) {
         });
         // Fires for the close button, backdrop and Esc alike.
         this.dialog.addEventListener('close', this.resetPopup.bind(this));
+
+        this.refs.addButton.addEventListener('click', this.onAddToCart.bind(this));
       }
 
       onClick(event) {
@@ -198,6 +200,94 @@ if (!customElements.get('gift-guide-product-grid')) {
         }
 
         this.refs.addButton.disabled = !(variant && variant.available);
+      }
+
+      /**
+       * Bundle rule from the brief: adding any variant whose Color option is
+       * "Black" AND whose Size option is "Medium" must also add the
+       * merchant-configured bundle product (Soft Winter Jacket).
+       *
+       * Both matches are required to come from real options of the product —
+       * a product without Color/Size options can never trigger the rule.
+       */
+      isBundleTrigger() {
+        let blackSelected = false;
+        let mediumSelected = false;
+
+        this.product.options.forEach((option, index) => {
+          const name = option.name.toLowerCase();
+          const value = (this.selections[index] || '').toLowerCase();
+          if ((name === 'color' || name === 'colour') && value === 'black') blackSelected = true;
+          // Stores commonly abbreviate Medium to "M".
+          if (name === 'size' && (value === 'medium' || value === 'm')) mediumSelected = true;
+        });
+
+        return blackSelected && mediumSelected;
+      }
+
+      /**
+       * Add the selected variant — plus the bundle product when the
+       * Black/Medium rule fires — in a single atomic Cart API request, then
+       * notify the rest of the theme so the header cart stays in sync.
+       */
+      async onAddToCart() {
+        const variant = this.findMatchingVariant();
+        if (!variant) return;
+
+        const items = [{ id: Number(variant.id), quantity: 1 }];
+        const bundleVariantId = Number(this.dataset.bundleVariantId);
+        if (this.isBundleTrigger() && bundleVariantId) {
+          items.push({ id: bundleVariantId, quantity: 1 });
+        }
+
+        this.refs.addButton.disabled = true;
+        this.refs.addButton.setAttribute('aria-busy', 'true');
+        this.refs.status.classList.remove('is-error');
+        this.refs.status.textContent = '';
+
+        try {
+          const response = await fetch(`${window.routes.cart_add_url}.js`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+            body: JSON.stringify({ items }),
+          });
+          const data = await response.json();
+          if (!response.ok) throw new Error(data.description || data.message);
+
+          this.refs.status.textContent = window.giftGuideStrings?.addedToCart || 'Added to cart';
+
+          // Dawn's cart components subscribe to this event (pubsub.js and
+          // constants.js are loaded globally by layout/theme.liquid).
+          if (typeof publish === 'function' && typeof PUB_SUB_EVENTS !== 'undefined') {
+            publish(PUB_SUB_EVENTS.cartUpdate, { source: 'gift-guide-product-grid', cartData: data });
+          }
+          this.refreshCartIcon();
+        } catch (error) {
+          this.refs.status.textContent =
+            error.message || window.giftGuideStrings?.addError || "Couldn't add to cart. Please try again.";
+          this.refs.status.classList.add('is-error');
+        } finally {
+          this.refs.addButton.removeAttribute('aria-busy');
+          this.updateSelection();
+        }
+      }
+
+      /**
+       * Re-render Dawn's header cart bubble so the item count updates
+       * without a page reload. Failing silently is fine — the cart itself
+       * is already correct.
+       */
+      refreshCartIcon() {
+        fetch(`${window.routes.cart_url}?section_id=cart-icon-bubble`)
+          .then((response) => response.text())
+          .then((html) => {
+            const bubble = document.getElementById('cart-icon-bubble');
+            // section_id responses arrive wrapped in a .shopify-section div,
+            // same as Dawn's own cart components expect.
+            const fresh = new DOMParser().parseFromString(html, 'text/html').querySelector('.shopify-section');
+            if (bubble && fresh) bubble.innerHTML = fresh.querySelector('#cart-icon-bubble')?.innerHTML ?? fresh.innerHTML;
+          })
+          .catch(() => {});
       }
 
       /** Clear transient state when the dialog closes (any close path). */
