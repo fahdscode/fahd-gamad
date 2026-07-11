@@ -11,10 +11,10 @@
      web-safe/licensable font here, so we fall back through its closest
      system relatives. */
   --gg-yellow: #f8e94e;
-  --gg-black: #111111;
+  --gg-black: #000000;
   --gg-white: #ffffff;
   --gg-surface: #f7f6f4;
-  --gg-font: "Avenir Next", Avenir, "Helvetica Neue", Arial, sans-serif;
+  --gg-font: 'Jost', 'Avenir Next', 'Century Gothic', Futura, sans-serif;
 
   font-family: var(--gg-font);
   color: var(--gg-black);
@@ -124,7 +124,7 @@
 .gift-guide-banner__hero-inner {
   position: relative; /* keeps the content above the absolutely-placed image */
   display: flex;
-  min-height: 42rem;
+  min-height: 46rem;
   align-items: center;
   justify-content: center;
 }
@@ -135,18 +135,19 @@
   max-width: 52rem;
 }
 
+/* Type metrics from the Figma frames: heading Jost 500 / 70px / 100%,
+   description Jost 400 / 20px / 140% at the 1440px frame. */
 .gift-guide-banner__heading {
-  margin: 0 0 1.2rem;
-  font-size: 3rem;
-  line-height: 1.15;
-  font-weight: 600;
-  letter-spacing: 0.01em;
+  margin: 0 0 1.6rem;
+  font-size: 4rem;
+  line-height: 1;
+  font-weight: 500;
 }
 
 .gift-guide-banner__description {
-  margin: 0 0 2.4rem;
-  font-size: 1.4rem;
-  line-height: 1.55;
+  margin: 0 0 2.8rem;
+  font-size: 1.6rem;
+  line-height: 1.4;
 }
 
 .gift-guide-banner__description p {
@@ -202,28 +203,32 @@
     flex: 1;
   }
 
+  /* Hero proportions from the 1440px frame: illustration group 1440×780,
+     content block bottom-aligned 4.2rem above the strip, 6.7rem from the
+     left edge. */
+  .gift-guide-banner__hero {
+    aspect-ratio: 1440 / 780;
+  }
+
   .gift-guide-banner__hero-inner {
-    min-height: 56rem;
+    min-height: 100%;
     justify-content: flex-start;
+    align-items: flex-end;
+    padding-inline: 6.7rem;
   }
 
   .gift-guide-banner__hero-content {
     text-align: left;
     max-width: 50rem;
+    padding-block: 0 4.2rem;
   }
 
   .gift-guide-banner__heading {
-    font-size: 4.6rem;
+    font-size: clamp(4rem, 4.86vw, 7rem);
   }
 
   .gift-guide-banner__description {
-    font-size: 1.5rem;
-    max-width: 40rem;
-  }
-}
-
-@media screen and (min-width: 990px) {
-  .gift-guide-banner__hero-inner {
-    min-height: 64rem;
+    font-size: 2rem;
+    max-width: 48.3rem;
   }
 }
