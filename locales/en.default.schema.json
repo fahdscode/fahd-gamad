@@ -738,6 +738,41 @@
         "name": "Gift guide banner"
       }
     },
+    "gift-guide-product-grid": {
+      "name": "Gift guide product grid",
+      "settings": {
+        "heading": {
+          "label": "Heading"
+        },
+        "header_bundle": {
+          "content": "Bundle rule",
+          "info": "When a shopper adds a variant with Color “Black” and Size “Medium”, the product below is automatically added to the cart with it."
+        },
+        "bundle_product": {
+          "label": "Bundle add-on product",
+          "info": "Added automatically when a Black / Medium variant goes to the cart."
+        }
+      },
+      "blocks": {
+        "product_block": {
+          "name": "Product",
+          "settings": {
+            "product": {
+              "label": "Product"
+            },
+            "hotspot_x": {
+              "label": "Hotspot horizontal position"
+            },
+            "hotspot_y": {
+              "label": "Hotspot vertical position"
+            }
+          }
+        }
+      },
+      "presets": {
+        "name": "Gift guide product grid"
+      }
+    },
     "custom-liquid": {
       "name": "Custom Liquid",
       "settings": {

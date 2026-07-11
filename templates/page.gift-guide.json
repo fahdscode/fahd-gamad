@@ -2,9 +2,74 @@
   "sections": {
     "banner": {
       "type": "gift-guide-banner"
+    },
+    "grid": {
+      "type": "gift-guide-product-grid",
+      "settings": {
+        "bundle_product": "gid://shopify/Product/9496560435368"
+      },
+      "blocks": {
+        "block-1": {
+          "type": "product_block",
+          "settings": {
+            "product": "gid://shopify/Product/9496560763048",
+            "hotspot_x": 45,
+            "hotspot_y": 50
+          }
+        },
+        "block-2": {
+          "type": "product_block",
+          "settings": {
+            "product": "gid://shopify/Product/9496560730280",
+            "hotspot_x": 55,
+            "hotspot_y": 40
+          }
+        },
+        "block-3": {
+          "type": "product_block",
+          "settings": {
+            "product": "gid://shopify/Product/9496560664744",
+            "hotspot_x": 55,
+            "hotspot_y": 25
+          }
+        },
+        "block-4": {
+          "type": "product_block",
+          "settings": {
+            "product": "gid://shopify/Product/9496560631976",
+            "hotspot_x": 45,
+            "hotspot_y": 35
+          }
+        },
+        "block-5": {
+          "type": "product_block",
+          "settings": {
+            "product": "gid://shopify/Product/9496560599208",
+            "hotspot_x": 45,
+            "hotspot_y": 30
+          }
+        },
+        "block-6": {
+          "type": "product_block",
+          "settings": {
+            "product": "gid://shopify/Product/9496560566440",
+            "hotspot_x": 60,
+            "hotspot_y": 45
+          }
+        }
+      },
+      "block_order": [
+        "block-1",
+        "block-2",
+        "block-3",
+        "block-4",
+        "block-5",
+        "block-6"
+      ]
     }
   },
   "order": [
-    "banner"
+    "banner",
+    "grid"
   ]
 }

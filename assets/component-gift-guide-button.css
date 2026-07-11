@@ -1,0 +1,100 @@
+/* Gift-guide arrow button (see snippets/gift-guide-button.liquid)
+   ------------------------------------------------------------------
+   Shared by the banner and the product-grid popup. Default and hover are
+   the two color variants from the Figma components sheet: on hover a panel
+   of the opposite color slides in behind the label and the arrow gains a
+   contrasting square chip. */
+
+.gift-guide-button {
+  --gg-btn-bg: var(--gg-black, #111);
+  --gg-btn-fg: var(--gg-white, #fff);
+  --gg-btn-hover-bg: var(--gg-yellow, #f8e94e);
+  --gg-btn-hover-fg: var(--gg-black, #111);
+
+  position: relative;
+  overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+  gap: 1.6rem;
+  padding: 1.3rem 2rem;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  background: var(--gg-btn-bg);
+  color: var(--gg-btn-fg);
+  font-family: inherit;
+  font-size: 1.3rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.gift-guide-button--yellow {
+  --gg-btn-bg: var(--gg-yellow, #f8e94e);
+  --gg-btn-fg: var(--gg-black, #111);
+  --gg-btn-hover-bg: var(--gg-black, #111);
+  --gg-btn-hover-fg: var(--gg-yellow, #f8e94e);
+}
+
+/* Sliding hover panel */
+.gift-guide-button::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--gg-btn-hover-bg);
+  transform: translateX(-101%);
+}
+
+.gift-guide-button__label,
+.gift-guide-button__arrow {
+  position: relative; /* above the sliding panel */
+  display: inline-flex;
+  align-items: center;
+}
+
+/* The arrow chip: transparent at rest, opposite-color square on hover. */
+.gift-guide-button__arrow {
+  padding: 0.5rem 0.6rem;
+  margin: -0.5rem -0.6rem; /* chip grows visually without shifting layout */
+  background: transparent;
+}
+
+.gift-guide-button:hover,
+.gift-guide-button:focus-visible {
+  color: var(--gg-btn-hover-fg);
+}
+
+.gift-guide-button:hover::before,
+.gift-guide-button:focus-visible::before {
+  transform: translateX(0);
+}
+
+.gift-guide-button:hover .gift-guide-button__arrow,
+.gift-guide-button:focus-visible .gift-guide-button__arrow {
+  background: var(--gg-btn-bg);
+  color: var(--gg-btn-hover-bg);
+}
+
+.gift-guide-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.gift-guide-button:disabled:hover::before {
+  transform: translateX(-101%);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .gift-guide-button {
+    transition: color 0.25s ease;
+  }
+
+  .gift-guide-button::before {
+    transition: transform 0.25s ease;
+  }
+
+  .gift-guide-button__label,
+  .gift-guide-button__arrow {
+    transition: color 0.25s ease, background-color 0.25s ease;
+  }
+}
