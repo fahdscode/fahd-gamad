@@ -72,6 +72,21 @@
         loading="eager"
         fetchpriority="high"
       >
+    {%- else -%}
+      {%- comment -%}
+        Default: the design's own vector illustration, shipped as a theme
+        asset so the section is pixel-perfect out of the box. Picking an
+        image in the customizer overrides it.
+      {%- endcomment -%}
+      <img
+        class="gift-guide-banner__hero-image"
+        src="{{ 'gift-guide-banner-illustration.svg' | asset_url }}"
+        width="1052"
+        height="400"
+        alt=""
+        loading="eager"
+        fetchpriority="high"
+      >
     {%- endif -%}
 
     <div class="gift-guide-banner__container gift-guide-banner__hero-inner">
