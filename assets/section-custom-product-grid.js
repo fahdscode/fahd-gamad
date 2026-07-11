@@ -164,12 +164,14 @@ if (!customElements.get('product-grid-popup')) {
 
     // The brief's bundling rule is keyed on option *names* (Color/Size), not
     // position, so a product with options in a different order still works.
+    // "Medium" covers both spelled-out values and the common "M" abbreviation
+    // real catalogs use (this store's own demo products use "M").
     isBlackMediumBundleTrigger() {
       return this.currentProduct.options.every((option, index) => {
         const name = option.name.toLowerCase();
         const value = (this.selections[index] || '').toLowerCase();
         if (name === 'color') return value === 'black';
-        if (name === 'size') return value === 'medium';
+        if (name === 'size') return value === 'medium' || value === 'm';
         return true;
       });
     }

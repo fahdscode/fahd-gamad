@@ -82,6 +82,9 @@
 }
 
 /* Popup */
+/* Native <dialog> is display:none by default; only lay it out as a grid
+   once showModal() adds the [open] attribute, otherwise it renders inline
+   on page load instead of staying hidden. */
 .custom-grid__popup {
   position: fixed;
   inset: 0;
@@ -93,9 +96,12 @@
   padding: 3.2rem;
   background: #fff;
   color: #000;
+  gap: 2.4rem;
+}
+
+.custom-grid__popup[open] {
   display: grid;
   grid-template-columns: 14rem 1fr;
-  gap: 2.4rem;
 }
 
 .custom-grid__popup::backdrop {
@@ -257,7 +263,7 @@
     gap: 1.2rem;
   }
 
-  .custom-grid__popup {
+  .custom-grid__popup[open] {
     grid-template-columns: 1fr;
     padding: 2.4rem 1.6rem;
   }
