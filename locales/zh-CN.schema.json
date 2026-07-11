@@ -3410,6 +3410,88 @@
           "label": "默认展开"
         }
       }
+    },
+    "gift-guide-banner": {
+      "name": "Gift guide banner",
+      "settings": {
+        "header_nav": {
+          "content": "Navigation"
+        },
+        "logo_text": {
+          "label": "Logo text"
+        },
+        "announcement_text": {
+          "label": "Announcement text"
+        },
+        "gift_button_label": {
+          "label": "Button label"
+        },
+        "gift_button_link": {
+          "label": "Button link"
+        },
+        "header_hero": {
+          "content": "Hero"
+        },
+        "background_image": {
+          "label": "Background illustration"
+        },
+        "heading": {
+          "label": "Heading"
+        },
+        "description": {
+          "label": "Description"
+        },
+        "shop_button_label": {
+          "label": "Button label"
+        },
+        "shop_button_link": {
+          "label": "Button link"
+        },
+        "header_strip": {
+          "content": "Bottom strip"
+        },
+        "strip_text": {
+          "label": "Strip text"
+        }
+      },
+      "presets": {
+        "name": "Gift guide banner"
+      }
+    },
+    "gift-guide-product-grid": {
+      "name": "Gift guide product grid",
+      "settings": {
+        "heading": {
+          "label": "Heading"
+        },
+        "header_bundle": {
+          "content": "Bundle rule",
+          "info": "When a shopper adds a variant with Color “Black” and Size “Medium”, the product below is automatically added to the cart with it."
+        },
+        "bundle_product": {
+          "label": "Bundle add-on product",
+          "info": "Added automatically when a Black / Medium variant goes to the cart."
+        }
+      },
+      "blocks": {
+        "product_block": {
+          "name": "Product",
+          "settings": {
+            "product": {
+              "label": "Product"
+            },
+            "hotspot_x": {
+              "label": "Hotspot horizontal position"
+            },
+            "hotspot_y": {
+              "label": "Hotspot vertical position"
+            }
+          }
+        }
+      },
+      "presets": {
+        "name": "Gift guide product grid"
+      }
     }
   }
 }
