@@ -387,6 +387,13 @@
       "min_error": "Este artículo tiene un mínimo de {{ min }}.",
       "max_error": "Este artículo tiene un máximo de {{ max }}.",
       "step_error": "Solo puedes agregar este artículo en incrementos de {{ step }}"
+    },
+    "gift_guide": {
+      "open_popup": "Quick view: {{ title }}",
+      "popup_label": "Product quick view",
+      "added_to_cart": "Added to cart",
+      "add_error": "Couldn't add to cart. Please try again.",
+      "unavailable": "This combination is unavailable"
     }
   },
   "localization": {

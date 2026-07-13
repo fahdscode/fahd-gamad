@@ -1,10 +1,71 @@
 {
   "sections": {
     "banner": {
-      "type": "custom-banner"
+      "type": "gift-guide-banner"
     },
     "grid": {
-      "type": "custom-product-grid"
+      "type": "gift-guide-product-grid",
+      "settings": {
+        "bundle_product": "dark-winter-jacket"
+      },
+      "blocks": {
+        "block-1": {
+          "type": "product_block",
+          "settings": {
+            "product": "black-leather-bag",
+            "hotspot_x": 45,
+            "hotspot_y": 50
+          }
+        },
+        "block-2": {
+          "type": "product_block",
+          "settings": {
+            "product": "blue-silk-tuxedo",
+            "hotspot_x": 55,
+            "hotspot_y": 40
+          }
+        },
+        "block-3": {
+          "type": "product_block",
+          "settings": {
+            "product": "chequered-red-shirt",
+            "hotspot_x": 55,
+            "hotspot_y": 25
+          }
+        },
+        "block-4": {
+          "type": "product_block",
+          "settings": {
+            "product": "classic-leather-jacket",
+            "hotspot_x": 45,
+            "hotspot_y": 35
+          }
+        },
+        "block-5": {
+          "type": "product_block",
+          "settings": {
+            "product": "classic-varsity-top",
+            "hotspot_x": 45,
+            "hotspot_y": 30
+          }
+        },
+        "block-6": {
+          "type": "product_block",
+          "settings": {
+            "product": "silk-summer-top",
+            "hotspot_x": 60,
+            "hotspot_y": 45
+          }
+        }
+      },
+      "block_order": [
+        "block-1",
+        "block-2",
+        "block-3",
+        "block-4",
+        "block-5",
+        "block-6"
+      ]
     }
   },
   "order": [

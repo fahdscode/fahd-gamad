@@ -375,6 +375,13 @@
       "min_error": "此商品的最小值为 {{ min }}",
       "max_error": "此商品的最大值为 {{ max }}",
       "step_error": "您只能以 {{ step }} 为增量来添加此商品"
+    },
+    "gift_guide": {
+      "open_popup": "Quick view: {{ title }}",
+      "popup_label": "Product quick view",
+      "added_to_cart": "Added to cart",
+      "add_error": "Couldn't add to cart. Please try again.",
+      "unavailable": "This combination is unavailable"
     }
   },
   "localization": {

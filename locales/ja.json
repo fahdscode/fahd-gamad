@@ -375,6 +375,13 @@
       "min_error": "このアイテムの最小値は{{ min }}です",
       "max_error": "このアイテムの最大値は{{ max }}です",
       "step_error": "このアイテムは、{{ step }}の増分でのみ追加できます"
+    },
+    "gift_guide": {
+      "open_popup": "Quick view: {{ title }}",
+      "popup_label": "Product quick view",
+      "added_to_cart": "Added to cart",
+      "add_error": "Couldn't add to cart. Please try again.",
+      "unavailable": "This combination is unavailable"
     }
   },
   "localization": {

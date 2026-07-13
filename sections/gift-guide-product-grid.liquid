@@ -1,0 +1,235 @@
+{% comment %}
+  Gift-guide product grid — bottom half of the gift-guide landing page.
+
+  Six merchant-picked products render as image tiles with a "+" hotspot.
+  Clicking a hotspot opens the quick-view popup (one <dialog> shared by all
+  tiles) with the product's name, price, description and dynamically
+  rendered variant pickers, plus a working ADD TO CART.
+
+  Product data reaches the popup through a per-block JSON "data island"
+  rendered by Liquid rather than a storefront fetch: the popup opens
+  instantly, prices arrive pre-formatted in the store's money format, and
+  the popup can't 404 for products not published to the Online Store
+  channel. See assets/gift-guide-product-grid.js for the behavior.
+
+  Bundle rule: when a shopper adds a variant whose Color is Black and Size
+  is Medium, the section's "bundle product" (e.g. Soft Winter Jacket) is
+  added to the cart in the same request.
+{% endcomment %}
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;500;600&family=Lustria&display=swap" rel="stylesheet">
+
+{{ 'section-gift-guide-product-grid.css' | asset_url | stylesheet_tag }}
+{{ 'component-gift-guide-button.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'gift-guide-product-grid.js' | asset_url }}" defer="defer"></script>
+
+{%- liquid
+  # The bundle item is added by variant id; use the bundle product's default
+  # variant so the merchant only has to pick a product.
+  assign bundle_variant_id = section.settings.bundle_product.selected_or_first_available_variant.id
+-%}
+
+<gift-guide-product-grid
+  class="gift-guide-grid"
+  data-section-id="{{ section.id }}"
+  {% if bundle_variant_id %}data-bundle-variant-id="{{ bundle_variant_id }}"{% endif %}
+>
+  <div class="gift-guide-grid__container">
+    {%- if section.settings.heading != blank -%}
+      <h2 class="gift-guide-grid__heading">{{ section.settings.heading | escape }}</h2>
+    {%- endif -%}
+
+    <ul class="gift-guide-grid__list" role="list">
+      {%- for block in section.blocks -%}
+        {%- assign product = block.settings.product -%}
+        <li class="gift-guide-grid__tile" {{ block.shopify_attributes }}>
+          {%- if product != blank -%}
+            {%- if product.featured_image -%}
+              <img
+                class="gift-guide-grid__image"
+                src="{{ product.featured_image | image_url: width: 600 }}"
+                srcset="{{ product.featured_image | image_url: width: 400 }} 400w,
+                        {{ product.featured_image | image_url: width: 600 }} 600w,
+                        {{ product.featured_image | image_url: width: 900 }} 900w"
+                sizes="(min-width: 990px) 33vw, 50vw"
+                width="{{ product.featured_image.width }}"
+                height="{{ product.featured_image.height }}"
+                alt="{{ product.featured_image.alt | default: product.title | escape }}"
+                loading="lazy"
+              >
+            {%- endif -%}
+
+            <button
+              class="gift-guide-grid__hotspot"
+              type="button"
+              aria-haspopup="dialog"
+              data-product-target="GiftGuideProduct-{{ section.id }}-{{ block.id }}"
+              style="--hotspot-x: {{ block.settings.hotspot_x }}%; --hotspot-y: {{ block.settings.hotspot_y }}%;"
+            >
+              <span aria-hidden="true">
+                <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 10 10" fill="none">
+                  <path d="M5 0v10M0 5h10" stroke="currentColor" stroke-width="1.2"/>
+                </svg>
+              </span>
+              <span class="visually-hidden">{{ 'sections.gift_guide.open_popup' | t: title: product.title }}</span>
+            </button>
+
+            {%- comment -%}
+              Data island consumed by the popup. `options`/`variants` mirror
+              what the JS needs and nothing more. Products with only the
+              default variant get an empty options array so the popup renders
+              no pickers and preselects the sole variant.
+            {%- endcomment -%}
+            <script type="application/json" id="GiftGuideProduct-{{ section.id }}-{{ block.id }}">
+              {
+                "title": {{ product.title | json }},
+                "description": {{ product.description | strip_html | truncate: 160 | json }},
+                "priceFormatted": {{ product.selected_or_first_available_variant.price | money | json }},
+                "image": {{ product.featured_image | image_url: width: 400 | json }},
+                "options": [
+                  {%- unless product.has_only_default_variant -%}
+                    {%- for option in product.options_with_values -%}
+                      {
+                        "name": {{ option.name | json }},
+                        "values": {{ option.values | json }}
+                      }{% unless forloop.last %},{% endunless %}
+                    {%- endfor -%}
+                  {%- endunless -%}
+                ],
+                "variants": [
+                  {%- for variant in product.variants -%}
+                    {
+                      "id": {{ variant.id | json }},
+                      "available": {{ variant.available | json }},
+                      "option1": {{ variant.option1 | json }},
+                      "option2": {{ variant.option2 | json }},
+                      "option3": {{ variant.option3 | json }},
+                      "priceFormatted": {{ variant.price | money | json }},
+                      "image": {% if variant.featured_image %}{{ variant.featured_image | image_url: width: 400 | json }}{% else %}null{% endif %}
+                    }{% unless forloop.last %},{% endunless %}
+                  {%- endfor -%}
+                ]
+              }
+            </script>
+          {%- elsif request.design_mode -%}
+            {%- comment -%} Editor-only placeholder for blocks with no product picked. {%- endcomment -%}
+            <div class="gift-guide-grid__placeholder">
+              {{ 'product-1' | placeholder_svg_tag: 'gift-guide-grid__placeholder-svg' }}
+            </div>
+          {%- endif -%}
+        </li>
+      {%- endfor -%}
+    </ul>
+  </div>
+
+  {%- comment -%}
+    Quick-view popup. A native <dialog> gives the dimmed backdrop, Esc
+    handling and focus trapping from the prototype for free. Content is
+    populated by JS from the clicked tile's data island.
+  {%- endcomment -%}
+  <dialog class="gift-guide-grid__popup" aria-label="{{ 'sections.gift_guide.popup_label' | t }}">
+    <button class="gift-guide-grid__popup-close" type="button" data-popup-close aria-label="{{ 'accessibility.close' | t }}">
+      <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+        <path d="M1 1l10 10M11 1L1 11" stroke="currentColor" stroke-width="1.2"/>
+      </svg>
+    </button>
+
+    <div class="gift-guide-grid__popup-summary">
+      <img class="gift-guide-grid__popup-image" src="" alt="" width="120" height="150" data-popup-image>
+      <div class="gift-guide-grid__popup-info">
+        <h3 class="gift-guide-grid__popup-title" data-popup-title></h3>
+        <p class="gift-guide-grid__popup-price" data-popup-price></p>
+        <p class="gift-guide-grid__popup-description" data-popup-description></p>
+      </div>
+    </div>
+
+    <div class="gift-guide-grid__popup-options" data-popup-options></div>
+
+    <p class="gift-guide-grid__popup-status" role="status" data-popup-status></p>
+
+    {%- assign add_to_cart_label = 'products.product.add_to_cart' | t -%}
+    {% render 'gift-guide-button',
+      label: add_to_cart_label,
+      style: 'black',
+      type: 'button',
+      class: 'gift-guide-grid__popup-add',
+      attrs: 'data-popup-add disabled'
+    %}
+  </dialog>
+</gift-guide-product-grid>
+
+{% schema %}
+{
+  "name": "t:sections.gift-guide-product-grid.name",
+  "tag": "section",
+  "class": "section-gift-guide-product-grid",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "t:sections.gift-guide-product-grid.settings.heading.label",
+      "default": "Tisso vison in the wild"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.gift-guide-product-grid.settings.header_bundle.content",
+      "info": "t:sections.gift-guide-product-grid.settings.header_bundle.info"
+    },
+    {
+      "type": "product",
+      "id": "bundle_product",
+      "label": "t:sections.gift-guide-product-grid.settings.bundle_product.label",
+      "info": "t:sections.gift-guide-product-grid.settings.bundle_product.info"
+    }
+  ],
+  "max_blocks": 6,
+  "blocks": [
+    {
+      "type": "product_block",
+      "name": "t:sections.gift-guide-product-grid.blocks.product_block.name",
+      "settings": [
+        {
+          "type": "product",
+          "id": "product",
+          "label": "t:sections.gift-guide-product-grid.blocks.product_block.settings.product.label"
+        },
+        {
+          "type": "range",
+          "id": "hotspot_x",
+          "label": "t:sections.gift-guide-product-grid.blocks.product_block.settings.hotspot_x.label",
+          "min": 5,
+          "max": 95,
+          "step": 5,
+          "unit": "%",
+          "default": 50
+        },
+        {
+          "type": "range",
+          "id": "hotspot_y",
+          "label": "t:sections.gift-guide-product-grid.blocks.product_block.settings.hotspot_y.label",
+          "min": 5,
+          "max": 95,
+          "step": 5,
+          "unit": "%",
+          "default": 50
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.gift-guide-product-grid.presets.name",
+      "blocks": [
+        { "type": "product_block" },
+        { "type": "product_block" },
+        { "type": "product_block" },
+        { "type": "product_block" },
+        { "type": "product_block" },
+        { "type": "product_block" }
+      ]
+    }
+  ]
+}
+{% endschema %}

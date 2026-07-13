@@ -375,6 +375,13 @@
       "min_error": "Den här artikeln har minst {{ min }}",
       "max_error": "Den här artikeln har max {{ max }}",
       "step_error": "Du kan endast lägga till den här artikeln med ökningar om {{ step }}"
+    },
+    "gift_guide": {
+      "open_popup": "Quick view: {{ title }}",
+      "popup_label": "Product quick view",
+      "added_to_cart": "Added to cart",
+      "add_error": "Couldn't add to cart. Please try again.",
+      "unavailable": "This combination is unavailable"
     }
   },
   "localization": {

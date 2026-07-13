@@ -375,6 +375,13 @@
       "min_error": "Denne varen har et minimumsantall på {{ min }}",
       "max_error": "Denne varen har et maksimumsantall på {{ max }}",
       "step_error": "Du kan bare legge til denne varen i multipler av {{ step }}"
+    },
+    "gift_guide": {
+      "open_popup": "Quick view: {{ title }}",
+      "popup_label": "Product quick view",
+      "added_to_cart": "Added to cart",
+      "add_error": "Couldn't add to cart. Please try again.",
+      "unavailable": "This combination is unavailable"
     }
   },
   "localization": {

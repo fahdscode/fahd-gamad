@@ -375,6 +375,13 @@
       "min_error": "이 품목의 최소 개수는 {{ min }}개입니다.",
       "max_error": "이 품목은 최대 개수는 {{ max }}개입니다.",
       "step_error": "이 품목은 {{ step }}개 단위로만 추가할 수 있습니다."
+    },
+    "gift_guide": {
+      "open_popup": "Quick view: {{ title }}",
+      "popup_label": "Product quick view",
+      "added_to_cart": "Added to cart",
+      "add_error": "Couldn't add to cart. Please try again.",
+      "unavailable": "This combination is unavailable"
     }
   },
   "localization": {

@@ -1,0 +1,303 @@
+/* Gift-guide product grid + quick-view popup
+   ------------------------------------------------------------------
+   Mobile-first: 2-column grid from the 375px frame, 3 columns at the
+   990px breakpoint (3×2 of six tiles, per the 1440px frame). The popup
+   is a native <dialog>; the same image-left card layout is used at every
+   breakpoint, as in the Figma prototype. */
+
+.gift-guide-grid {
+  /* Same fixed design palette as the banner (each section is
+     self-contained, so the tokens are declared in both files). */
+  --gg-yellow: #f8e94e;
+  --gg-black: #000000;
+  --gg-white: #ffffff;
+  --gg-surface: #f7f6f4;
+  --gg-font: 'Jost', 'Avenir Next', 'Century Gothic', Futura, sans-serif;
+
+  display: block;
+  font-family: var(--gg-font);
+  color: var(--gg-black);
+  background: var(--gg-white);
+}
+
+.gift-guide-grid__container {
+  width: 100%;
+  max-width: 144rem;
+  margin-inline: auto;
+  padding: 3.2rem 1.6rem 4.8rem;
+}
+
+/* The grid heading is set in Lustria (serif) in the design — 36px / 120%
+   at the 1440px frame. */
+.gift-guide-grid__heading {
+  margin: 0 0 2rem;
+  font-family: 'Lustria', Georgia, 'Times New Roman', serif;
+  font-size: 2.4rem;
+  line-height: 1.2;
+  font-weight: 400;
+  text-align: center;
+}
+
+.gift-guide-grid__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.6rem;
+}
+
+.gift-guide-grid__tile {
+  position: relative;
+}
+
+.gift-guide-grid__image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  aspect-ratio: 433 / 444; /* tile proportion measured from the 1440px frame */
+  object-fit: cover;
+}
+
+/* "+" hotspot. Its position is merchant-tunable per block so it can sit on
+   the product exactly like the design (see the block's range settings). */
+.gift-guide-grid__hotspot {
+  position: absolute;
+  left: var(--hotspot-x, 50%);
+  top: var(--hotspot-y, 50%);
+  transform: translate(-50%, -50%);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.4rem;
+  height: 2.4rem;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: var(--gg-white);
+  color: var(--gg-black);
+  box-shadow: 0 0.1rem 0.3rem rgba(0, 0, 0, 0.25);
+  cursor: pointer;
+}
+
+.gift-guide-grid__hotspot:hover {
+  background: var(--gg-black);
+  color: var(--gg-white);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .gift-guide-grid__hotspot {
+    transition: background-color 0.2s ease, color 0.2s ease;
+  }
+}
+
+/* Editor-only placeholder for blocks without a product picked yet. */
+.gift-guide-grid__placeholder {
+  aspect-ratio: 433 / 444;
+  background: var(--gg-surface);
+}
+
+.gift-guide-grid__placeholder-svg {
+  width: 100%;
+  height: 100%;
+}
+
+/* --- Quick-view popup -------------------------------------------------- */
+
+.gift-guide-grid__popup {
+  /* Card metrics from Figma frame 1000009755 (311×447). */
+  width: min(31.1rem, calc(100vw - 3.2rem));
+  padding: 2rem 2rem 2.4rem;
+  border: none;
+  background: var(--gg-white);
+  color: var(--gg-black);
+  font-family: var(--gg-font);
+  box-shadow: 0 0.2rem 0.4rem rgba(0, 0, 0, 0.2);
+}
+
+.gift-guide-grid__popup::backdrop {
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.gift-guide-grid__popup-close {
+  position: absolute;
+  top: 1.2rem;
+  right: 1.2rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  height: 3rem;
+  padding: 0;
+  border: none;
+  background: none;
+  color: var(--gg-black);
+  cursor: pointer;
+}
+
+.gift-guide-grid__popup-summary {
+  display: flex;
+  gap: 1.6rem;
+  margin-top: 1.6rem;
+}
+
+.gift-guide-grid__popup-image {
+  width: 40%;
+  height: auto;
+  object-fit: cover;
+  align-self: flex-start;
+}
+
+.gift-guide-grid__popup-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.gift-guide-grid__popup-title {
+  margin: 0 0 0.8rem;
+  font-size: 1.5rem;
+  font-weight: 500;
+}
+
+.gift-guide-grid__popup-price {
+  margin: 0 0 0.8rem;
+  font-size: 1.6rem;
+  font-weight: 500;
+}
+
+.gift-guide-grid__popup-description {
+  margin: 0;
+  font-size: 1.1rem;
+  line-height: 1.45;
+}
+
+/* Option groups (rendered dynamically by JS) */
+
+.gift-guide-grid__popup-options {
+  margin-top: 1.6rem;
+}
+
+.gift-guide-grid__option {
+  margin-bottom: 1.4rem;
+}
+
+.gift-guide-grid__option-name {
+  display: block;
+  margin: 0 0 0.6rem;
+  font-size: 1.2rem;
+}
+
+/* Segmented value picker (used for Color): values side by side inside one
+   bordered box; the checked value inverts to black/white. */
+.gift-guide-grid__swatches {
+  display: flex;
+  border: 0.1rem solid var(--gg-black);
+}
+
+.gift-guide-grid__swatch {
+  flex: 1;
+  position: relative;
+}
+
+.gift-guide-grid__swatch + .gift-guide-grid__swatch {
+  border-left: 0.1rem solid var(--gg-black);
+}
+
+.gift-guide-grid__swatch input {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  margin: 0;
+  cursor: pointer;
+}
+
+.gift-guide-grid__swatch label {
+  display: block;
+  padding: 0.9rem 1rem;
+  font-size: 1.3rem;
+  text-align: left;
+  cursor: pointer;
+}
+
+.gift-guide-grid__swatch input:checked + label {
+  background: var(--gg-black);
+  color: var(--gg-white);
+}
+
+.gift-guide-grid__swatch input:focus-visible + label {
+  outline: 0.2rem solid var(--gg-black);
+  outline-offset: 0.2rem;
+}
+
+/* Dropdown picker (used for Size and any other option) */
+.gift-guide-grid__select-wrapper {
+  position: relative;
+  border: 0.1rem solid var(--gg-black);
+}
+
+.gift-guide-grid__select-wrapper::after {
+  /* chevron chip on the right, per the design */
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: 1.2rem;
+  width: 0.8rem;
+  height: 0.8rem;
+  border-right: 0.15rem solid var(--gg-black);
+  border-bottom: 0.15rem solid var(--gg-black);
+  transform: translateY(-70%) rotate(45deg);
+  pointer-events: none;
+}
+
+.gift-guide-grid__select {
+  width: 100%;
+  padding: 1rem 4rem 1rem 1.2rem;
+  border: none;
+  background: transparent;
+  font-family: inherit;
+  font-size: 1.3rem;
+  color: inherit;
+  appearance: none;
+  -webkit-appearance: none;
+  cursor: pointer;
+}
+
+/* Status line for cart feedback (success / error) */
+.gift-guide-grid__popup-status {
+  min-height: 1.6rem;
+  margin: 0 0 0.8rem;
+  font-size: 1.2rem;
+}
+
+.gift-guide-grid__popup-status.is-error {
+  color: #c1121f;
+}
+
+.gift-guide-grid__popup-add {
+  width: 100%;
+  justify-content: space-between;
+}
+
+/* --- Tablet / desktop -------------------------------------------------- */
+
+@media screen and (min-width: 750px) {
+  .gift-guide-grid__container {
+    padding: 4.8rem 4.8rem 6.4rem;
+  }
+
+  .gift-guide-grid__heading {
+    text-align: left;
+    font-size: 3.6rem;
+    margin-bottom: 2.4rem;
+  }
+
+  .gift-guide-grid__list {
+    gap: 2rem;
+  }
+}
+
+@media screen and (min-width: 990px) {
+  .gift-guide-grid__list {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}

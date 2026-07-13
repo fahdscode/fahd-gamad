@@ -691,26 +691,29 @@
         }
       }
     },
-    "custom-banner": {
+    "gift-guide-banner": {
       "name": "Gift guide banner",
       "settings": {
-        "background_image": {
-          "label": "Background illustration"
-        },
         "header_nav": {
           "content": "Navigation"
         },
-        "nav_announcement_text": {
+        "logo_text": {
+          "label": "Logo text"
+        },
+        "announcement_text": {
           "label": "Announcement text"
         },
-        "choose_gift_button_label": {
+        "gift_button_label": {
           "label": "Button label"
         },
-        "choose_gift_button_link": {
+        "gift_button_link": {
           "label": "Button link"
         },
         "header_hero": {
           "content": "Hero"
+        },
+        "background_image": {
+          "label": "Background illustration"
         },
         "heading": {
           "label": "Heading"
@@ -718,16 +721,16 @@
         "description": {
           "label": "Description"
         },
-        "shop_now_button_label": {
+        "shop_button_label": {
           "label": "Button label"
         },
-        "shop_now_button_link": {
+        "shop_button_link": {
           "label": "Button link"
         },
         "header_strip": {
-          "content": "Sub-banner strip"
+          "content": "Bottom strip"
         },
-        "sub_banner_text": {
+        "strip_text": {
           "label": "Strip text"
         }
       },
@@ -735,19 +738,19 @@
         "name": "Gift guide banner"
       }
     },
-    "custom-product-grid": {
-      "name": "Product grid with popup",
+    "gift-guide-product-grid": {
+      "name": "Gift guide product grid",
       "settings": {
         "heading": {
           "label": "Heading"
         },
         "header_bundle": {
           "content": "Bundle rule",
-          "info": "When a shopper adds a variant with Color = Black and Size = Medium, this product is automatically added to the cart alongside it."
+          "info": "When a shopper adds a variant with Color “Black” and Size “Medium”, the product below is automatically added to the cart with it."
         },
         "bundle_product": {
           "label": "Bundle add-on product",
-          "info": "Automatically added to cart when a Black / Medium variant is selected."
+          "info": "Added automatically when a Black / Medium variant goes to the cart."
         }
       },
       "blocks": {
@@ -756,12 +759,18 @@
           "settings": {
             "product": {
               "label": "Product"
+            },
+            "hotspot_x": {
+              "label": "Hotspot horizontal position"
+            },
+            "hotspot_y": {
+              "label": "Hotspot vertical position"
             }
           }
         }
       },
       "presets": {
-        "name": "Product grid with popup"
+        "name": "Gift guide product grid"
       }
     },
     "custom-liquid": {

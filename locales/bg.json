@@ -375,6 +375,13 @@
       "min_error": "За този артикул има минимум от {{ min }}",
       "max_error": "За този артикул има максимум от {{ max }}",
       "step_error": "Можете да добавяте този артикул само на групи от {{ step }}"
+    },
+    "gift_guide": {
+      "open_popup": "Quick view: {{ title }}",
+      "popup_label": "Product quick view",
+      "added_to_cart": "Added to cart",
+      "add_error": "Couldn't add to cart. Please try again.",
+      "unavailable": "This combination is unavailable"
     }
   },
   "localization": {

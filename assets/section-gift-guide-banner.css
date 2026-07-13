@@ -1,0 +1,234 @@
+/* Gift-guide banner
+   ------------------------------------------------------------------
+   Layout + design tokens for the gift-guide landing banner. The design
+   is a fixed black/white/yellow palette (no theme color scheme), so the
+   tokens live here rather than in settings. Mobile-first: the base rules
+   are the 375px mobile frame, ≥750px switches to the desktop nav row and
+   left-aligned hero from the 1440px frame. */
+
+.gift-guide-banner {
+  /* Palette + type sampled from the Figma file. Avenir LT Std is not a
+     web-safe/licensable font here, so we fall back through its closest
+     system relatives. */
+  --gg-yellow: #f8e94e;
+  --gg-black: #000000;
+  --gg-white: #ffffff;
+  --gg-surface: #f7f6f4;
+  --gg-font: 'Jost', 'Avenir Next', 'Century Gothic', Futura, sans-serif;
+
+  font-family: var(--gg-font);
+  color: var(--gg-black);
+  background: var(--gg-white);
+}
+
+.gift-guide-banner__container {
+  width: 100%;
+  max-width: 144rem;
+  margin-inline: auto;
+  padding-inline: 1.6rem;
+}
+
+/* --- Navigation row -------------------------------------------------- */
+
+.gift-guide-banner__nav {
+  background: var(--gg-surface);
+  border-bottom: 0.1rem solid rgba(17, 17, 17, 0.08);
+}
+
+.gift-guide-banner__nav-inner {
+  display: flex;
+  align-items: center;
+  min-height: 5.6rem;
+  position: relative;
+}
+
+.gift-guide-banner__logo {
+  font-size: 1.7rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  /* Mobile: logo centered in the bar (hamburger sits on the left). */
+  margin-inline: auto;
+}
+
+/* Hamburger toggle — only part of the mobile design. */
+.gift-guide-banner__menu-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 4.4rem;
+  height: 4.4rem;
+  margin-left: -1.2rem;
+  padding: 0;
+  background: none;
+  border: none;
+  color: var(--gg-black);
+  cursor: pointer;
+}
+
+.gift-guide-banner__icon-close,
+.gift-guide-banner__menu-toggle[aria-expanded='true'] .gift-guide-banner__icon-hamburger {
+  display: none;
+}
+
+.gift-guide-banner__menu-toggle[aria-expanded='true'] .gift-guide-banner__icon-close {
+  display: block;
+}
+
+/* Collapsible panel holding the announcement + CHOOSE GIFT button.
+   Hidden on mobile until the hamburger expands it; always visible on
+   desktop where it lays out as announcement (center) + button (right). */
+.gift-guide-banner__nav-panel {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: 2;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.2rem;
+  padding: 1.6rem;
+  background: var(--gg-surface);
+  border-bottom: 0.1rem solid rgba(17, 17, 17, 0.08);
+}
+
+.gift-guide-banner__nav-panel.is-open {
+  display: flex;
+}
+
+.gift-guide-banner__announcement {
+  margin: 0;
+  font-size: 1.3rem;
+  text-align: center;
+}
+
+/* --- Hero ------------------------------------------------------------ */
+
+.gift-guide-banner__hero {
+  position: relative;
+  overflow: hidden;
+  background: var(--gg-white);
+}
+
+.gift-guide-banner__hero-image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.gift-guide-banner__hero-inner {
+  position: relative; /* keeps the content above the absolutely-placed image */
+  display: flex;
+  min-height: 46rem;
+  align-items: center;
+  justify-content: center;
+}
+
+.gift-guide-banner__hero-content {
+  text-align: center;
+  padding-block: 4rem;
+  max-width: 52rem;
+}
+
+/* Type metrics from the Figma frames: heading Jost 500 / 70px / 100%,
+   description Jost 400 / 20px / 140% at the 1440px frame. */
+.gift-guide-banner__heading {
+  margin: 0 0 1.6rem;
+  font-size: 4rem;
+  line-height: 1;
+  font-weight: 500;
+}
+
+.gift-guide-banner__description {
+  margin: 0 0 2.8rem;
+  font-size: 1.6rem;
+  line-height: 1.4;
+}
+
+.gift-guide-banner__description p {
+  margin: 0;
+}
+
+/* --- Bottom strip ----------------------------------------------------- */
+
+.gift-guide-banner__strip {
+  margin: 0;
+  padding: 1rem 1.6rem;
+  background: var(--gg-surface);
+  font-size: 1.2rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-align: center;
+}
+
+/* The shared arrow button lives in component-gift-guide-button.css; this
+   file only supplies the --gg-* tokens it reads. */
+
+/* --- Tablet / desktop -------------------------------------------------- */
+
+@media screen and (min-width: 750px) {
+  .gift-guide-banner__container {
+    padding-inline: 4rem;
+  }
+
+  .gift-guide-banner__menu-toggle {
+    display: none;
+  }
+
+  .gift-guide-banner__logo {
+    margin-inline: 0;
+  }
+
+  /* Panel becomes the inline nav content: announcement centered,
+     button pinned right. */
+  .gift-guide-banner__nav-panel,
+  .gift-guide-banner__nav-panel.is-open {
+    display: flex;
+    position: static;
+    flex-direction: row;
+    align-items: center;
+    flex: 1;
+    gap: 2rem;
+    padding: 0;
+    background: none;
+    border: none;
+  }
+
+  .gift-guide-banner__announcement {
+    flex: 1;
+  }
+
+  /* Hero proportions from the 1440px frame: illustration group 1440×780,
+     content block bottom-aligned 4.2rem above the strip, 6.7rem from the
+     left edge. */
+  .gift-guide-banner__hero {
+    aspect-ratio: 1440 / 780;
+  }
+
+  .gift-guide-banner__hero-inner {
+    min-height: 100%;
+    justify-content: flex-start;
+    align-items: flex-end;
+    padding-inline: 6.7rem;
+  }
+
+  .gift-guide-banner__hero-content {
+    text-align: left;
+    max-width: 50rem;
+    padding-block: 0 4.2rem;
+  }
+
+  .gift-guide-banner__heading {
+    font-size: clamp(4rem, 4.86vw, 7rem);
+  }
+
+  .gift-guide-banner__description {
+    font-size: 2rem;
+    max-width: 48.3rem;
+  }
+}

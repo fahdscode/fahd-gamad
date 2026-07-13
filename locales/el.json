@@ -375,6 +375,13 @@
       "min_error": "Αυτό το προϊόν έχει ελάχιστο όριο {{ min }}",
       "max_error": "Αυτό το προϊόν έχει μέγιστο όριο {{ max }}",
       "step_error": "Μπορείτε να προσθέσετε αυτό το προϊόν μόνο κατά βήματα των {{ step }}"
+    },
+    "gift_guide": {
+      "open_popup": "Quick view: {{ title }}",
+      "popup_label": "Product quick view",
+      "added_to_cart": "Added to cart",
+      "add_error": "Couldn't add to cart. Please try again.",
+      "unavailable": "This combination is unavailable"
     }
   },
   "localization": {
